@@ -1,0 +1,216 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Bai4Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Luong">
+          <Key>
+            <PropertyRef Name="ID_Luong" />
+          </Key>
+          <Property Name="ID_Luong" Type="int" Nullable="false" />
+          <Property Name="Bac_Luong" Type="decimal" Precision="4" Scale="2" Nullable="false" />
+          <Property Name="Ten" Type="nvarchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="NhanSu">
+          <Key>
+            <PropertyRef Name="MaNV" />
+          </Key>
+          <Property Name="MaNV" Type="int" Nullable="false" />
+          <Property Name="HoTen" Type="nvarchar" MaxLength="50" />
+          <Property Name="NgaySinh" Type="datetime" />
+          <Property Name="QueQuan" Type="nvarchar" MaxLength="50" />
+          <Property Name="GioiTinh" Type="int" />
+          <Property Name="Ngay_BD" Type="datetime" />
+          <Property Name="MaPB" Type="int" />
+          <Property Name="ID_Luong" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PhongBan">
+          <Key>
+            <PropertyRef Name="MaPB" />
+          </Key>
+          <Property Name="MaPB" Type="int" Nullable="false" />
+          <Property Name="TenPB" Type="nvarchar" MaxLength="50" />
+          <Property Name="MoTa" Type="nvarchar" MaxLength="50" />
+          <Property Name="STT_PB" Type="int" />
+          <Property Name="Parent_ID" Type="int" />
+        </EntityType>
+        <Association Name="FK__NhanSu__ID_Luong__35BCFE0A">
+          <End Role="Luong" Type="Self.Luong" Multiplicity="1" />
+          <End Role="NhanSu" Type="Self.NhanSu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Luong">
+              <PropertyRef Name="ID_Luong" />
+            </Principal>
+            <Dependent Role="NhanSu">
+              <PropertyRef Name="ID_Luong" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NhanSu_PhongBan">
+          <End Role="PhongBan" Type="Self.PhongBan" Multiplicity="0..1" />
+          <End Role="NhanSu" Type="Self.NhanSu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PhongBan">
+              <PropertyRef Name="MaPB" />
+            </Principal>
+            <Dependent Role="NhanSu">
+              <PropertyRef Name="MaPB" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Bai4ModelStoreContainer">
+          <EntitySet Name="Luong" EntityType="Self.Luong" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NhanSu" EntityType="Self.NhanSu" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PhongBan" EntityType="Self.PhongBan" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__NhanSu__ID_Luong__35BCFE0A" Association="Self.FK__NhanSu__ID_Luong__35BCFE0A">
+            <End Role="Luong" EntitySet="Luong" />
+            <End Role="NhanSu" EntitySet="NhanSu" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NhanSu_PhongBan" Association="Self.FK_NhanSu_PhongBan">
+            <End Role="PhongBan" EntitySet="PhongBan" />
+            <End Role="NhanSu" EntitySet="NhanSu" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Bai4Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Luong">
+          <Key>
+            <PropertyRef Name="ID_Luong" />
+          </Key>
+          <Property Name="ID_Luong" Type="Int32" Nullable="false" />
+          <Property Name="Bac_Luong" Type="Decimal" Precision="4" Scale="2" Nullable="false" />
+          <Property Name="Ten" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="NhanSus" Relationship="Self.FK__NhanSu__ID_Luong__35BCFE0A" FromRole="Luong" ToRole="NhanSu" />
+        </EntityType>
+        <EntityType Name="NhanSu">
+          <Key>
+            <PropertyRef Name="MaNV" />
+          </Key>
+          <Property Name="MaNV" Type="Int32" Nullable="false" />
+          <Property Name="HoTen" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="NgaySinh" Type="DateTime" Precision="3" />
+          <Property Name="QueQuan" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="GioiTinh" Type="Int32" />
+          <Property Name="Ngay_BD" Type="DateTime" Precision="3" />
+          <Property Name="MaPB" Type="Int32" />
+          <Property Name="ID_Luong" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Luong" Relationship="Self.FK__NhanSu__ID_Luong__35BCFE0A" FromRole="NhanSu" ToRole="Luong" />
+          <NavigationProperty Name="PhongBan" Relationship="Self.FK_NhanSu_PhongBan" FromRole="NhanSu" ToRole="PhongBan" />
+        </EntityType>
+        <EntityType Name="PhongBan">
+          <Key>
+            <PropertyRef Name="MaPB" />
+          </Key>
+          <Property Name="MaPB" Type="Int32" Nullable="false" />
+          <Property Name="TenPB" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MoTa" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="STT_PB" Type="Int32" />
+          <Property Name="Parent_ID" Type="Int32" />
+          <NavigationProperty Name="NhanSus" Relationship="Self.FK_NhanSu_PhongBan" FromRole="PhongBan" ToRole="NhanSu" />
+        </EntityType>
+        <Association Name="FK__NhanSu__ID_Luong__35BCFE0A">
+          <End Role="Luong" Type="Self.Luong" Multiplicity="1" />
+          <End Role="NhanSu" Type="Self.NhanSu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Luong">
+              <PropertyRef Name="ID_Luong" />
+            </Principal>
+            <Dependent Role="NhanSu">
+              <PropertyRef Name="ID_Luong" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NhanSu_PhongBan">
+          <End Role="PhongBan" Type="Self.PhongBan" Multiplicity="0..1" />
+          <End Role="NhanSu" Type="Self.NhanSu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PhongBan">
+              <PropertyRef Name="MaPB" />
+            </Principal>
+            <Dependent Role="NhanSu">
+              <PropertyRef Name="MaPB" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Bai4Entities2" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Luongs" EntityType="Self.Luong" />
+          <EntitySet Name="NhanSus" EntityType="Self.NhanSu" />
+          <EntitySet Name="PhongBans" EntityType="Self.PhongBan" />
+          <AssociationSet Name="FK__NhanSu__ID_Luong__35BCFE0A" Association="Self.FK__NhanSu__ID_Luong__35BCFE0A">
+            <End Role="Luong" EntitySet="Luongs" />
+            <End Role="NhanSu" EntitySet="NhanSus" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NhanSu_PhongBan" Association="Self.FK_NhanSu_PhongBan">
+            <End Role="PhongBan" EntitySet="PhongBans" />
+            <End Role="NhanSu" EntitySet="NhanSus" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Bai4ModelStoreContainer" CdmEntityContainer="Bai4Entities2">
+          <EntitySetMapping Name="Luongs">
+            <EntityTypeMapping TypeName="Bai4Model.Luong">
+              <MappingFragment StoreEntitySet="Luong">
+                <ScalarProperty Name="ID_Luong" ColumnName="ID_Luong" />
+                <ScalarProperty Name="Bac_Luong" ColumnName="Bac_Luong" />
+                <ScalarProperty Name="Ten" ColumnName="Ten" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NhanSus">
+            <EntityTypeMapping TypeName="Bai4Model.NhanSu">
+              <MappingFragment StoreEntitySet="NhanSu">
+                <ScalarProperty Name="MaNV" ColumnName="MaNV" />
+                <ScalarProperty Name="HoTen" ColumnName="HoTen" />
+                <ScalarProperty Name="NgaySinh" ColumnName="NgaySinh" />
+                <ScalarProperty Name="QueQuan" ColumnName="QueQuan" />
+                <ScalarProperty Name="GioiTinh" ColumnName="GioiTinh" />
+                <ScalarProperty Name="Ngay_BD" ColumnName="Ngay_BD" />
+                <ScalarProperty Name="MaPB" ColumnName="MaPB" />
+                <ScalarProperty Name="ID_Luong" ColumnName="ID_Luong" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PhongBans">
+            <EntityTypeMapping TypeName="Bai4Model.PhongBan">
+              <MappingFragment StoreEntitySet="PhongBan">
+                <ScalarProperty Name="MaPB" ColumnName="MaPB" />
+                <ScalarProperty Name="TenPB" ColumnName="TenPB" />
+                <ScalarProperty Name="MoTa" ColumnName="MoTa" />
+                <ScalarProperty Name="STT_PB" ColumnName="STT_PB" />
+                <ScalarProperty Name="Parent_ID" ColumnName="Parent_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
